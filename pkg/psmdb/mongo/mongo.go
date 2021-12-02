@@ -161,11 +161,11 @@ func AddShard(ctx context.Context, client *mongo.Client, rsName, host string) er
 	return nil
 }
 
-func WriteConfig(ctx context.Context, client *mongo.Client, cfg RSConfig) error {
+func WriteConfig(ctx context.Context, client *mongo.Client, cfg RSConfig, force bool) error {
 	resp := OKResponse{}
 
 	// Using force flag since mongo 4.4 forbids to add multiple members at a time.
-	res := client.Database("admin").RunCommand(ctx, bson.D{{Key: "replSetReconfig", Value: cfg}, {Key: "force", Value: true}})
+	res := client.Database("admin").RunCommand(ctx, bson.D{{Key: "replSetReconfig", Value: cfg}, {Key: "force", Value: force}})
 	if res.Err() != nil {
 		return errors.Wrap(res.Err(), "replSetReconfig")
 	}

@@ -200,7 +200,7 @@ func (r *ReconcilePerconaServerMongoDB) reconcileCluster(cr *api.PerconaServerMo
 		cnf.Members.SetVotes()
 
 		cnf.Version++
-		if err := mongo.WriteConfig(context.TODO(), cli, cnf); err != nil {
+		if err := mongo.WriteConfig(context.TODO(), cli, cnf, true); err != nil {
 			return api.AppStateError, errors.Wrap(err, "fix tags: write mongo config")
 		}
 	}
@@ -209,7 +209,7 @@ func (r *ReconcilePerconaServerMongoDB) reconcileCluster(cr *api.PerconaServerMo
 		cnf.Members.SetVotes()
 
 		cnf.Version++
-		err = mongo.WriteConfig(context.TODO(), cli, cnf)
+		err = mongo.WriteConfig(context.TODO(), cli, cnf, true)
 		if err != nil {
 			return api.AppStateError, errors.Wrap(err, "delete: write mongo config")
 		}
@@ -220,7 +220,7 @@ func (r *ReconcilePerconaServerMongoDB) reconcileCluster(cr *api.PerconaServerMo
 		cnf.Members.SetVotes()
 
 		cnf.Version++
-		err = mongo.WriteConfig(context.TODO(), cli, cnf)
+		err = mongo.WriteConfig(context.TODO(), cli, cnf, true)
 		if err != nil {
 			return api.AppStateError, errors.Wrap(err, "add new: write mongo config")
 		}
